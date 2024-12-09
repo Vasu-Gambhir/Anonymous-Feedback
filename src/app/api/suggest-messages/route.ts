@@ -27,9 +27,10 @@ export async function POST(req: Request) {
     // Create a ReadableStream to send chunks
     const stream = new ReadableStream({
       start(controller) {
+        const encoder = new TextEncoder();
         const chunks = text.match(/.{1,50}/g) || []; // Split into 50-character chunks
         for (const chunk of chunks) {
-          controller.enqueue(chunk); // Enqueue each chunk
+          controller.enqueue(encoder.encode(chunk)); // Enqueue each chunk
         }
         controller.close(); // Signal the end of the stream
       },
