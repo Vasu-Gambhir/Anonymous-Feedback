@@ -7,9 +7,11 @@ import { User } from "next-auth";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function DELETE(
   request: Request,
-  { params }: { params: Promise<{ meesageid: string }> }
+  { params }: { params: Promise<{ messageid: string }> }
 ) {
-  const messageid = (await params).meesageid;
+  const resolvedParams = await params;
+  const messageid = resolvedParams.messageid;
+
   await dbConnect();
 
   const session = await getServerSession(authOptions);
